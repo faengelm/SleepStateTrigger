@@ -70,7 +70,11 @@ On first launch, the app will request:
 2. The app auto-matches common scene names on first launch
 3. To change scenes, use the pickers on either the Watch or iPhone — changes sync automatically
 
-### 3. Wear to Bed
+### 3. Verify Watch Connectivity
+
+Open the **Settings** (gear icon) on the iPhone app and check the **About** screen. If the Watch App version and build number appear, the Watch is communicating successfully with the iPhone. If they show "—", open the Watch app to trigger a sync.
+
+### 4. Wear to Bed
 
 With Apple Watch sleep tracking enabled, wear your Watch to bed. The app will:
 - Detect when you fall asleep and run your sleep scene
