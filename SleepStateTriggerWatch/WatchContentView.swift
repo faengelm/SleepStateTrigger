@@ -13,6 +13,7 @@ struct WatchContentView: View {
                 if !monitor.stateHistory.isEmpty {
                     historySection
                 }
+                aboutSection
             }
             .navigationTitle("Sleep")
         }
@@ -122,6 +123,19 @@ struct WatchContentView: View {
             .disabled(homeKit.wakeSceneName == nil)
         } header: {
             Text("Test")
+        }
+    }
+
+    // MARK: - About
+
+    private var aboutSection: some View {
+        Section {
+            let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—"
+            let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "—"
+            Text("v\(version) (\(build))")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity)
         }
     }
 
