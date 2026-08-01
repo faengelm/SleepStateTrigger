@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject private var sync = ConnectivityManager.shared
-    @ObservedObject private var notificationManager = NotificationManager.shared
 
     @State private var showingAbout = false
 
@@ -14,7 +13,6 @@ struct ContentView: View {
                 if !sync.overnightLog.isEmpty {
                     overnightLogSection
                 }
-                testSection
             }
             .navigationTitle("Sleep State Trigger")
             .toolbar {
@@ -29,9 +27,6 @@ struct ContentView: View {
             .sheet(isPresented: $showingAbout) {
                 AboutView()
             }
-        }
-        .task {
-            await notificationManager.requestAuthorization()
         }
     }
 
@@ -180,27 +175,6 @@ struct ContentView: View {
         }
     }
 
-    // MARK: - Test Notifications
-
-    private var testSection: some View {
-        Section {
-            Button {
-                notificationManager.sendSleepNotification()
-            } label: {
-                Label("Send Sleep Notification", systemImage: "moon.fill")
-            }
-
-            Button {
-                notificationManager.sendWakeNotification()
-            } label: {
-                Label("Send Wake Notification", systemImage: "sun.max.fill")
-            }
-        } header: {
-            Text("Test Notifications")
-        } footer: {
-            Text("Tap to verify notifications work on this device.")
-        }
-    }
 }
 
 #Preview {

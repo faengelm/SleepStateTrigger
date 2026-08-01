@@ -18,7 +18,6 @@ Any device or scene you can control through Apple Home can be automated with Sle
 - **Live dashboard** — Displays the current sleep state synced from the Apple Watch in real time
 - **Remote scene configuration** — Choose sleep and wake scenes from the iPhone; changes sync to the Watch automatically
 - **Overnight log** — Records all sleep transitions throughout the night with timestamps and which scenes were executed
-- **Test notifications** — Verify notification delivery on the iPhone
 - **Watch pairing status** — Shows whether the Apple Watch is paired and actively monitoring
 
 ### What Can You Automate?
