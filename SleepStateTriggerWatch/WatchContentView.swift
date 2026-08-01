@@ -2,57 +2,126 @@ import SwiftUI
 
 struct WatchContentView: View {
     @ObservedObject private var monitor = WatchSleepMonitor.shared
+    @ObservedObject private var homeKit = HomeKitManager.shared
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 12) {
-                Image(systemName: monitor.currentState.icon)
-                    .font(.system(size: 40))
-                    .foregroundStyle(monitor.currentState.color)
-
-                Text(monitor.currentState.displayName)
-                    .font(.title3.bold())
-
-                if let time = monitor.lastTransitionTime {
-                    Text("Since \(time, format: .dateTime.hour().minute())")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-
-                Divider()
-
-                HStack {
-                    Circle()
-                        .fill(monitor.isMonitoring ? .green : .red)
-                        .frame(width: 8, height: 8)
-                    Text(monitor.isMonitoring ? "Monitoring" : "Inactive")
-                        .font(.caption)
-                }
-
+        NavigationStack {
+            List {
+                stateSection
+                scenesSection
+                testSection
                 if !monitor.stateHistory.isEmpty {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Recent")
+                    historySection
+                }
+            }
+            .navigationTitle("Sleep")
+        }
+    }
+
+    // MARK: - Current State
+
+    private var stateSection: some View {
+        Section {
+            HStack {
+                Image(systemName: monitor.currentState.icon)
+                    .font(.title2)
+                    .foregroundStyle(monitor.currentState.color)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(monitor.currentState.displayName)
+                        .font(.headline)
+                    if let time = monitor.lastTransitionTime {
+                        Text("Since \(time, format: .dateTime.hour().minute())")
                             .font(.caption2)
                             .foregroundStyle(.secondary)
-
-                        ForEach(monitor.stateHistory.prefix(5)) { t in
-                            HStack {
-                                Image(systemName: t.to.icon)
-                                    .font(.caption2)
-                                    .foregroundStyle(t.to.color)
-                                Text(t.to.displayName)
-                                    .font(.caption2)
-                                Spacer()
-                                Text(t.timestamp, format: .dateTime.hour().minute())
-                                    .font(.caption2)
-                                    .foregroundStyle(.secondary)
-                            }
-                        }
                     }
                 }
             }
-            .padding()
+
+            HStack {
+                Circle()
+                    .fill(monitor.isMonitoring ? .green : .red)
+                    .frame(width: 8, height: 8)
+                Text(monitor.isMonitoring ? "Monitoring" : "Inactive")
+                    .font(.caption)
+            }
         }
-        .navigationTitle("Sleep")
+    }
+
+    // MARK: - Scene Configuration
+
+    private var scenesSection: some View {
+        Section {
+            Picker("Sleep", selection: Binding(
+                get: { homeKit.sleepSceneName },
+                set: { homeKit.saveSleepScene($0) }
+            )) {
+                Text("None").tag(nil as String?)
+                ForEach(homeKit.availableScenes, id: \.self) { scene in
+                    Text(scene).tag(scene as String?)
+                }
+            }
+
+            Picker("Wake", selection: Binding(
+                get: { homeKit.wakeSceneName },
+                set: { homeKit.saveWakeScene($0) }
+            )) {
+                Text("None").tag(nil as String?)
+                ForEach(homeKit.availableScenes, id: \.self) { scene in
+                    Text(scene).tag(scene as String?)
+                }
+            }
+
+            if let result = homeKit.lastActionResult {
+                Text(result)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+        } header: {
+            Text("Home Scenes")
+        }
+    }
+
+    // MARK: - Test
+
+    private var testSection: some View {
+        Section {
+            Button {
+                homeKit.executeSleepScene()
+            } label: {
+                Label("Test Sleep Scene", systemImage: "moon.fill")
+            }
+            .disabled(homeKit.sleepSceneName == nil)
+
+            Button {
+                homeKit.executeWakeScene()
+            } label: {
+                Label("Test Wake Scene", systemImage: "sun.max.fill")
+            }
+            .disabled(homeKit.wakeSceneName == nil)
+        } header: {
+            Text("Test")
+        }
+    }
+
+    // MARK: - History
+
+    private var historySection: some View {
+        Section {
+            ForEach(monitor.stateHistory.prefix(5)) { t in
+                HStack {
+                    Image(systemName: t.to.icon)
+                        .font(.caption2)
+                        .foregroundStyle(t.to.color)
+                    Text(t.to.displayName)
+                        .font(.caption2)
+                    Spacer()
+                    Text(t.timestamp, format: .dateTime.hour().minute())
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        } header: {
+            Text("Recent")
+        }
     }
 }

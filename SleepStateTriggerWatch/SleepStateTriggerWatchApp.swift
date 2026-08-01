@@ -6,6 +6,7 @@ struct SleepStateTriggerWatchApp: App {
         WindowGroup {
             WatchContentView()
                 .onAppear {
+                    HomeKitManager.shared.start()
                     WatchSleepMonitor.shared.start()
                 }
         }

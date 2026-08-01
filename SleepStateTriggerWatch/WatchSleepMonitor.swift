@@ -196,13 +196,15 @@ final class WatchSleepMonitor: NSObject, ObservableObject, UNUserNotificationCen
         if newState.isAsleep && !previousState.isAsleep {
             sendNotification(
                 title: "Sleep Detected",
-                body: "You've fallen asleep. Sweet dreams!"
+                body: "Goodnight scene activated. Sweet dreams!"
             )
+            HomeKitManager.shared.executeSleepScene()
         } else if !newState.isAsleep && previousState.isAsleep {
             sendNotification(
                 title: "Good Morning!",
-                body: "You're waking up."
+                body: "Good Morning scene activated."
             )
+            HomeKitManager.shared.executeWakeScene()
         }
     }
 
