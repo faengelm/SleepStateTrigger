@@ -325,6 +325,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Sleep State Trigger";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Sleep State Trigger reads sleep data on the Watch to detect when you fall asleep and wake up.";
+				INFOPLIST_KEY_NSHomeKitUsageDescription = "Sleep State Trigger controls your smart home devices — activating scenes when you fall asleep and wake up.";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.sleepstatetrigger.app;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sleepstatetrigger.app.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -349,6 +350,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Sleep State Trigger";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Sleep State Trigger reads sleep data on the Watch to detect when you fall asleep and wake up.";
+				INFOPLIST_KEY_NSHomeKitUsageDescription = "Sleep State Trigger controls your smart home devices — activating scenes when you fall asleep and wake up.";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.sleepstatetrigger.app;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sleepstatetrigger.app.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";

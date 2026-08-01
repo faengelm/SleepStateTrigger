@@ -10,10 +10,12 @@ class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate {
     private var pendingAction: (() -> Void)?
 
     @Published var isReady = false
+    @Published var homeName: String?
     @Published var availableScenes: [String] = []
     @Published var sleepSceneName: String?
     @Published var wakeSceneName: String?
     @Published var lastActionResult: String?
+    @Published var statusMessage: String = "Not started"
 
     override init() {
         super.init()
@@ -22,6 +24,7 @@ class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate {
 
     func start() {
         guard homeManager == nil else { return }
+        statusMessage = "Connecting..."
         homeManager = HMHomeManager()
         homeManager?.delegate = self
     }
@@ -42,10 +45,14 @@ class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate {
     func refreshScenes() {
         guard let home = homeManager?.homes.first else {
             availableScenes = []
+            homeName = nil
+            statusMessage = "No home found"
             return
         }
 
+        homeName = home.name
         availableScenes = home.actionSets.map(\.name).sorted()
+        statusMessage = "\(availableScenes.count) scene\(availableScenes.count == 1 ? "" : "s") found"
 
         // Auto-match on first run if user hasn't selected yet
         if sleepSceneName == nil {

@@ -51,23 +51,45 @@ struct WatchContentView: View {
 
     private var scenesSection: some View {
         Section {
-            Picker("Sleep", selection: Binding(
-                get: { homeKit.sleepSceneName },
-                set: { homeKit.saveSleepScene($0) }
-            )) {
-                Text("None").tag(nil as String?)
-                ForEach(homeKit.availableScenes, id: \.self) { scene in
-                    Text(scene).tag(scene as String?)
+            // HomeKit status
+            HStack {
+                Image(systemName: "house.fill")
+                    .foregroundStyle(homeKit.isReady ? .green : .orange)
+                if let name = homeKit.homeName {
+                    Text(name)
+                        .font(.caption)
+                } else {
+                    Text(homeKit.statusMessage)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
             }
 
-            Picker("Wake", selection: Binding(
-                get: { homeKit.wakeSceneName },
-                set: { homeKit.saveWakeScene($0) }
-            )) {
-                Text("None").tag(nil as String?)
-                ForEach(homeKit.availableScenes, id: \.self) { scene in
-                    Text(scene).tag(scene as String?)
+            if homeKit.availableScenes.isEmpty && homeKit.isReady {
+                Text("No scenes found in your Home. Create scenes in the Home app first.")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+
+            if !homeKit.availableScenes.isEmpty {
+                Picker("Sleep", selection: Binding(
+                    get: { homeKit.sleepSceneName },
+                    set: { homeKit.saveSleepScene($0) }
+                )) {
+                    Text("None").tag(nil as String?)
+                    ForEach(homeKit.availableScenes, id: \.self) { scene in
+                        Text(scene).tag(scene as String?)
+                    }
+                }
+
+                Picker("Wake", selection: Binding(
+                    get: { homeKit.wakeSceneName },
+                    set: { homeKit.saveWakeScene($0) }
+                )) {
+                    Text("None").tag(nil as String?)
+                    ForEach(homeKit.availableScenes, id: \.self) { scene in
+                        Text(scene).tag(scene as String?)
+                    }
                 }
             }
 
