@@ -4,6 +4,8 @@ struct ContentView: View {
     @ObservedObject private var sleepManager = SleepStateManager.shared
     @ObservedObject private var notificationManager = NotificationManager.shared
 
+    @State private var showingAbout = false
+
     var body: some View {
         NavigationStack {
             List {
@@ -15,6 +17,18 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Sleep State Trigger")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showingAbout = true
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                }
+            }
+            .sheet(isPresented: $showingAbout) {
+                AboutView()
+            }
         }
         .task {
             sleepManager.loadSavedState()
