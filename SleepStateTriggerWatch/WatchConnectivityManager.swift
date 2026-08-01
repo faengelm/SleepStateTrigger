@@ -82,4 +82,28 @@ class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
             self.sendState()
         }
     }
+
+    // MARK: - Receive Commands from iPhone
+
+    func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
+        handleCommand(message)
+    }
+
+    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any] = [:]) {
+        handleCommand(userInfo)
+    }
+
+    private func handleCommand(_ info: [String: Any]) {
+        guard let command = info["command"] as? String else { return }
+        DispatchQueue.main.async {
+            switch command {
+            case "testSleepScene":
+                HomeKitManager.shared.executeSleepScene()
+            case "testWakeScene":
+                HomeKitManager.shared.executeWakeScene()
+            default:
+                break
+            }
+        }
+    }
 }

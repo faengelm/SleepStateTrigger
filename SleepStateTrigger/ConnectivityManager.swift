@@ -132,6 +132,30 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
         try? WCSession.default.updateApplicationContext(context)
     }
 
+    // MARK: - Remote Scene Test
+
+    func testSleepScene() {
+        sendCommand("testSleepScene")
+    }
+
+    func testWakeScene() {
+        sendCommand("testWakeScene")
+    }
+
+    private func sendCommand(_ command: String) {
+        guard WCSession.default.activationState == .activated else { return }
+        let message: [String: Any] = ["command": command]
+        if WCSession.default.isReachable {
+            WCSession.default.sendMessage(message, replyHandler: nil) { error in
+                print("[Connectivity] sendMessage error: \(error)")
+                // Fall back to transferUserInfo if sendMessage fails
+                WCSession.default.transferUserInfo(message)
+            }
+        } else {
+            WCSession.default.transferUserInfo(message)
+        }
+    }
+
     // MARK: - Log Persistence
 
     func clearLog() {

@@ -10,6 +10,7 @@ struct ContentView: View {
             List {
                 watchStateSection
                 scenesSection
+                testSection
                 if !sync.overnightLog.isEmpty {
                     overnightLogSection
                 }
@@ -175,6 +176,29 @@ struct ContentView: View {
         }
     }
 
+    // MARK: - Test Scenes
+
+    private var testSection: some View {
+        Section {
+            Button {
+                sync.testSleepScene()
+            } label: {
+                Label("Test Sleep Scene", systemImage: "moon.fill")
+            }
+            .disabled(sync.sleepSceneName == nil)
+
+            Button {
+                sync.testWakeScene()
+            } label: {
+                Label("Test Wake Scene", systemImage: "sun.max.fill")
+            }
+            .disabled(sync.wakeSceneName == nil)
+        } header: {
+            Text("Test")
+        } footer: {
+            Text("Sends a command to the Watch to execute the scene immediately.")
+        }
+    }
 }
 
 #Preview {
