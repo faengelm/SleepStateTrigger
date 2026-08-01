@@ -120,6 +120,7 @@ class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate {
                     self.lastActionResult = "'\(name)' executed"
                     print("[HomeKit] Executed '\(name)' successfully")
                 }
+                WatchConnectivityManager.shared.sendState()
             }
         }
     }

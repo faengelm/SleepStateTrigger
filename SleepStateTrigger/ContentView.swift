@@ -4,6 +4,8 @@ struct ContentView: View {
     @ObservedObject private var sync = ConnectivityManager.shared
 
     @State private var showingAbout = false
+    @State private var sleepTestSent = false
+    @State private var wakeTestSent = false
 
     var body: some View {
         NavigationStack {
@@ -182,21 +184,49 @@ struct ContentView: View {
         Section {
             Button {
                 sync.testSleepScene()
+                showSent($sleepTestSent)
             } label: {
-                Label("Test Sleep Scene", systemImage: "moon.fill")
+                HStack {
+                    Label("Test Sleep Scene", systemImage: "moon.fill")
+                    Spacer()
+                    if sleepTestSent {
+                        Text("Sent")
+                            .font(.subheadline)
+                            .foregroundStyle(.green)
+                            .transition(.opacity)
+                    }
+                }
             }
             .disabled(sync.sleepSceneName == nil)
 
             Button {
                 sync.testWakeScene()
+                showSent($wakeTestSent)
             } label: {
-                Label("Test Wake Scene", systemImage: "sun.max.fill")
+                HStack {
+                    Label("Test Wake Scene", systemImage: "sun.max.fill")
+                    Spacer()
+                    if wakeTestSent {
+                        Text("Sent")
+                            .font(.subheadline)
+                            .foregroundStyle(.green)
+                            .transition(.opacity)
+                    }
+                }
             }
             .disabled(sync.wakeSceneName == nil)
         } header: {
             Text("Test")
         } footer: {
             Text("Sends a command to the Watch to execute the scene immediately.")
+        }
+    }
+
+    private func showSent(_ flag: Binding<Bool>) {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        withAnimation { flag.wrappedValue = true }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            withAnimation { flag.wrappedValue = false }
         }
     }
 }
