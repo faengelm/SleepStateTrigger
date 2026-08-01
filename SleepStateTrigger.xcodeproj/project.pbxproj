@@ -6,8 +6,37 @@
 	objectVersion = 70;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CC000000000000000000000D /* SleepStateTrigger Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = CC0000000000000000000002 /* SleepStateTrigger Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CC000000000000000000000A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BB0000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CC0000000000000000000001;
+			remoteInfo = "SleepStateTrigger Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CC000000000000000000000C /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				CC000000000000000000000D /* SleepStateTrigger Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		BB0000000000000000000005 /* SleepStateTrigger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SleepStateTrigger.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC0000000000000000000002 /* SleepStateTrigger Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SleepStateTrigger Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -22,10 +51,18 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		BB000000000000000000000F /* SleepStateTrigger */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (BB0000000000000000000010 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = SleepStateTrigger; sourceTree = "<group>"; };
+		CC0000000000000000000003 /* SleepStateTriggerWatch */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = SleepStateTriggerWatch; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		BB0000000000000000000007 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC0000000000000000000005 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -39,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				BB000000000000000000000F /* SleepStateTrigger */,
+				CC0000000000000000000003 /* SleepStateTriggerWatch */,
 				BB0000000000000000000004 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -47,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				BB0000000000000000000005 /* SleepStateTrigger.app */,
+				CC0000000000000000000002 /* SleepStateTrigger Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,10 +100,12 @@
 				BB0000000000000000000006 /* Sources */,
 				BB0000000000000000000007 /* Frameworks */,
 				BB0000000000000000000008 /* Resources */,
+				CC000000000000000000000C /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CC000000000000000000000B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				BB000000000000000000000F /* SleepStateTrigger */,
@@ -72,6 +113,26 @@
 			name = SleepStateTrigger;
 			productName = SleepStateTrigger;
 			productReference = BB0000000000000000000005 /* SleepStateTrigger.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CC0000000000000000000001 /* SleepStateTrigger Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC0000000000000000000007 /* Build configuration list for PBXNativeTarget "SleepStateTrigger Watch App" */;
+			buildPhases = (
+				CC0000000000000000000004 /* Sources */,
+				CC0000000000000000000005 /* Frameworks */,
+				CC0000000000000000000006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CC0000000000000000000003 /* SleepStateTriggerWatch */,
+			);
+			name = "SleepStateTrigger Watch App";
+			productName = "SleepStateTrigger Watch App";
+			productReference = CC0000000000000000000002 /* SleepStateTrigger Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -104,12 +165,20 @@
 			projectRoot = "";
 			targets = (
 				BB0000000000000000000002 /* SleepStateTrigger */,
+				CC0000000000000000000001 /* SleepStateTrigger Watch App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		BB0000000000000000000008 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC0000000000000000000006 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -126,7 +195,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CC0000000000000000000004 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CC000000000000000000000B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "SleepStateTrigger Watch App";
+			target = CC0000000000000000000001 /* SleepStateTrigger Watch App */;
+			targetProxy = CC000000000000000000000A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		BB000000000000000000000B /* Debug */ = {
@@ -228,6 +313,55 @@
 			};
 			name = Release;
 		};
+		CC0000000000000000000008 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SleepStateTriggerWatch/SleepStateTriggerWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 43G3EU92Q6;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Sleep State Trigger";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Sleep State Trigger reads sleep data on the Watch to detect when you fall asleep and wake up.";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.sleepstatetrigger.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sleepstatetrigger.app.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		CC0000000000000000000009 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SleepStateTriggerWatch/SleepStateTriggerWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 43G3EU92Q6;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Sleep State Trigger";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Sleep State Trigger reads sleep data on the Watch to detect when you fall asleep and wake up.";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.sleepstatetrigger.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sleepstatetrigger.app.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -245,6 +379,15 @@
 			buildConfigurations = (
 				BB000000000000000000000D /* Debug */,
 				BB000000000000000000000E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC0000000000000000000007 /* Build configuration list for PBXNativeTarget "SleepStateTrigger Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC0000000000000000000009 /* Release */,
+				CC0000000000000000000008 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
