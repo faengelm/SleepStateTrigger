@@ -31,11 +31,16 @@ class WatchConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
         let monitor = WatchSleepMonitor.shared
         let homeKit = HomeKitManager.shared
 
+        let watchVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—"
+        let watchBuild = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "—"
+
         var context: [String: Any] = [
             "sleepState": monitor.currentState.rawValue,
             "isMonitoring": monitor.isMonitoring,
             "availableScenes": homeKit.availableScenes,
             "homeKitStatus": homeKit.statusMessage,
+            "watchVersion": watchVersion,
+            "watchBuild": watchBuild,
             "source": "watch",
         ]
 

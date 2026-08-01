@@ -19,6 +19,8 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
     @Published var lastActionResult: String?
     @Published var homeKitStatus: String = "Waiting for Watch"
     @Published var isWatchPaired = false
+    @Published var watchVersion: String?
+    @Published var watchBuild: String?
     @Published var overnightLog: [TransitionEvent] = []
 
     struct TransitionEvent: Identifiable, Codable {
@@ -87,6 +89,8 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
             self.wakeSceneName = ctx["wakeSceneName"] as? String
             self.lastActionResult = ctx["lastActionResult"] as? String
             self.homeKitStatus = ctx["homeKitStatus"] as? String ?? "Unknown"
+            self.watchVersion = ctx["watchVersion"] as? String
+            self.watchBuild = ctx["watchBuild"] as? String
         }
     }
 

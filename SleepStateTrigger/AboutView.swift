@@ -2,6 +2,7 @@ import SwiftUI
 
 struct AboutView: View {
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject private var sync = ConnectivityManager.shared
 
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—"
@@ -32,9 +33,14 @@ struct AboutView: View {
                     .padding(.vertical, 16)
                 }
 
-                Section {
+                Section("iPhone App") {
                     row("Version", value: appVersion)
                     row("Build", value: buildNumber)
+                }
+
+                Section("Watch App") {
+                    row("Version", value: sync.watchVersion ?? "—")
+                    row("Build", value: sync.watchBuild ?? "—")
                 }
 
                 Section {
