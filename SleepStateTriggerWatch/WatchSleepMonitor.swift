@@ -192,7 +192,12 @@ final class WatchSleepMonitor: NSObject, ObservableObject, UNUserNotificationCen
         lastTransitionTime = sampleDate
         saveState()
 
+        // Sync state to iPhone
+        WatchConnectivityManager.shared.sendState()
+
         guard previousState != .unknown else { return }
+
+        var sceneExecuted: String? = nil
 
         if newState.isAsleep && !previousState.isAsleep {
             sendNotification(
@@ -200,13 +205,23 @@ final class WatchSleepMonitor: NSObject, ObservableObject, UNUserNotificationCen
                 body: "Goodnight scene activated. Sweet dreams!"
             )
             HomeKitManager.shared.executeSleepScene()
+            sceneExecuted = HomeKitManager.shared.sleepSceneName
         } else if !newState.isAsleep && previousState.isAsleep {
             sendNotification(
                 title: "Good Morning!",
                 body: "Good Morning scene activated."
             )
             HomeKitManager.shared.executeWakeScene()
+            sceneExecuted = HomeKitManager.shared.wakeSceneName
         }
+
+        // Send transition event to iPhone for overnight log
+        WatchConnectivityManager.shared.sendTransition(
+            from: previousState.rawValue,
+            to: newState.rawValue,
+            timestamp: sampleDate,
+            sceneExecuted: sceneExecuted
+        )
     }
 
     // MARK: - Notifications

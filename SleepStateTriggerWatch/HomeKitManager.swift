@@ -37,6 +37,7 @@ class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate {
             self.refreshScenes()
             self.pendingAction?()
             self.pendingAction = nil
+            WatchConnectivityManager.shared.sendState()
         }
     }
 
@@ -128,11 +129,13 @@ class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate {
     func saveSleepScene(_ name: String?) {
         sleepSceneName = name
         UserDefaults.standard.set(name, forKey: "sleepSceneName")
+        WatchConnectivityManager.shared.sendState()
     }
 
     func saveWakeScene(_ name: String?) {
         wakeSceneName = name
         UserDefaults.standard.set(name, forKey: "wakeSceneName")
+        WatchConnectivityManager.shared.sendState()
     }
 
     private func loadSavedScenes() {
