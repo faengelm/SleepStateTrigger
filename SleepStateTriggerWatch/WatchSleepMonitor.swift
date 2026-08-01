@@ -6,7 +6,7 @@ import UserNotifications
 /// Monitors sleep analysis samples directly on the Watch's local HealthKit store.
 /// Because the Watch writes sleep data locally (no iPhone sync needed), background
 /// delivery fires immediately — even while the phone is locked.
-final class WatchSleepMonitor: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
+final class WatchSleepMonitor: NSObject, ObservableObject, UNUserNotificationCenterDelegate, @unchecked Sendable {
     static let shared = WatchSleepMonitor()
 
     private let healthStore = HKHealthStore()
@@ -156,8 +156,9 @@ final class WatchSleepMonitor: NSObject, ObservableObject, UNUserNotificationCen
             ) { [weak self] _, samples, _ in
                 if let latest = (samples as? [HKCategorySample])?.first {
                     let newState = Self.mapSleepValue(latest.value)
-                    Task { @MainActor in
-                        self?.processStateChange(newState: newState, sampleDate: latest.endDate)
+                    let endDate = latest.endDate
+                    Task { @MainActor [weak self] in
+                        self?.processStateChange(newState: newState, sampleDate: endDate)
                     }
                 }
                 continuation.resume()

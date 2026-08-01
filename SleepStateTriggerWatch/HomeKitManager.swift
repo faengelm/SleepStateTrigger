@@ -40,7 +40,7 @@ class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate {
     // MARK: - Scene Discovery
 
     func refreshScenes() {
-        guard let home = homeManager?.primaryHome ?? homeManager?.homes.first else {
+        guard let home = homeManager?.homes.first else {
             availableScenes = []
             return
         }
@@ -94,7 +94,7 @@ class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate {
     }
 
     private func executeScene(named name: String) {
-        guard let home = homeManager?.primaryHome ?? homeManager?.homes.first,
+        guard let home = homeManager?.homes.first,
               let actionSet = home.actionSets.first(where: { $0.name == name }) else {
             DispatchQueue.main.async {
                 self.lastActionResult = "Scene '\(name)' not found"
