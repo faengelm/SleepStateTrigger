@@ -222,6 +222,15 @@ struct WatchContentView: View {
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }
+
+            HStack {
+                Text("Session")
+                    .font(.caption2)
+                Spacer()
+                Text(monitor.sessionState)
+                    .font(.caption2)
+                    .foregroundStyle(monitor.sessionState == "Running" ? .green : .secondary)
+            }
         } header: {
             Text("HealthKit Diagnostics")
         }

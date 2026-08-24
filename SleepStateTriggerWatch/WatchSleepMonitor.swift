@@ -2,16 +2,18 @@ import Foundation
 import HealthKit
 import SwiftUI
 import UserNotifications
+import WatchKit
 
 /// Monitors sleep analysis samples directly on the Watch's local HealthKit store.
-/// Because the Watch writes sleep data locally (no iPhone sync needed), background
-/// delivery fires immediately — even while the phone is locked.
+/// Uses an extended runtime session to keep the app alive during sleep so
+/// HealthKit observer queries fire in real time.
 final class WatchSleepMonitor: NSObject, ObservableObject, UNUserNotificationCenterDelegate, @unchecked Sendable {
     static let shared = WatchSleepMonitor()
 
     private let healthStore = HKHealthStore()
     private let sleepType = HKCategoryType(.sleepAnalysis)
     private var observerQuery: HKObserverQuery?
+    private var extendedSession: WKExtendedRuntimeSession?
     private var started = false
 
     @Published var currentState: SleepState = .unknown
@@ -27,6 +29,7 @@ final class WatchSleepMonitor: NSObject, ObservableObject, UNUserNotificationCen
     @Published var lastSampleSource: String?
     @Published var observerFireCount: Int = 0
     @Published var sampleCount: Int = 0
+    @Published var sessionState: String = "Not Started"
 
     // MARK: - Types
 
@@ -122,9 +125,25 @@ final class WatchSleepMonitor: NSObject, ObservableObject, UNUserNotificationCen
                 started = true
                 enableBackgroundDelivery()
                 startObserving()
+                startExtendedSession()
                 await MainActor.run { isMonitoring = true }
             }
         }
+    }
+
+    // MARK: - Extended Runtime Session
+
+    func startExtendedSession() {
+        // Don't start a new session if one is already running
+        if let existing = extendedSession, existing.state == .running {
+            return
+        }
+
+        let session = WKExtendedRuntimeSession()
+        session.delegate = self
+        session.start()
+        extendedSession = session
+        print("[Watch] Extended runtime session requested")
     }
 
     // MARK: - Background Delivery
@@ -284,6 +303,45 @@ final class WatchSleepMonitor: NSObject, ObservableObject, UNUserNotificationCen
         UserDefaults.standard.set(currentState.rawValue, forKey: "watchSleepState")
         if let time = lastTransitionTime {
             UserDefaults.standard.set(time, forKey: "watchTransitionTime")
+        }
+    }
+}
+
+// MARK: - WKExtendedRuntimeSessionDelegate
+
+extension WatchSleepMonitor: WKExtendedRuntimeSessionDelegate {
+    func extendedRuntimeSessionDidStart(_ session: WKExtendedRuntimeSession) {
+        print("[Watch] Extended session started")
+        DispatchQueue.main.async { self.sessionState = "Running" }
+    }
+
+    func extendedRuntimeSessionWillExpire(_ session: WKExtendedRuntimeSession) {
+        print("[Watch] Extended session expiring — restarting")
+        DispatchQueue.main.async { self.sessionState = "Expiring" }
+        // Start a new session before this one expires
+        startExtendedSession()
+    }
+
+    func extendedRuntimeSession(_ session: WKExtendedRuntimeSession,
+                                didInvalidateWith reason: WKExtendedRuntimeSessionInvalidationReason,
+                                error: (any Error)?) {
+        let reasonText: String
+        switch reason {
+        case .none:                reasonText = "Completed"
+        case .sessionInProgress:   reasonText = "Another session active"
+        case .expired:             reasonText = "Expired"
+        case .error:               reasonText = "Error: \(error?.localizedDescription ?? "unknown")"
+        case .resignedFrontmost:   reasonText = "App resigned frontmost"
+        @unknown default:          reasonText = "Unknown (\(reason.rawValue))"
+        }
+        print("[Watch] Extended session invalidated: \(reasonText)")
+        DispatchQueue.main.async { self.sessionState = reasonText }
+
+        // Auto-restart on normal expiration
+        if reason == .expired || reason == .none {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.startExtendedSession()
+            }
         }
     }
 }
