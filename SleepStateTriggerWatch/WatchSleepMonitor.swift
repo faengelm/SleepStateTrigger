@@ -3,6 +3,7 @@ import HealthKit
 import SwiftUI
 import UserNotifications
 import WatchKit
+import WidgetKit
 
 /// Monitors sleep analysis samples directly on the Watch's local HealthKit store.
 /// Uses an extended runtime session to keep the app alive during sleep so
@@ -291,19 +292,22 @@ final class WatchSleepMonitor: NSObject, ObservableObject, UNUserNotificationCen
 
     // MARK: - Persistence
 
+    private static let sharedDefaults = UserDefaults(suiteName: "group.com.sleepstatetrigger.app") ?? .standard
+
     private func loadSavedState() {
-        if let raw = UserDefaults.standard.string(forKey: "watchSleepState"),
+        if let raw = Self.sharedDefaults.string(forKey: "watchSleepState"),
            let state = SleepState(rawValue: raw) {
             currentState = state
         }
-        lastTransitionTime = UserDefaults.standard.object(forKey: "watchTransitionTime") as? Date
+        lastTransitionTime = Self.sharedDefaults.object(forKey: "watchTransitionTime") as? Date
     }
 
     private func saveState() {
-        UserDefaults.standard.set(currentState.rawValue, forKey: "watchSleepState")
+        Self.sharedDefaults.set(currentState.rawValue, forKey: "watchSleepState")
         if let time = lastTransitionTime {
-            UserDefaults.standard.set(time, forKey: "watchTransitionTime")
+            Self.sharedDefaults.set(time, forKey: "watchTransitionTime")
         }
+        WidgetCenter.shared.reloadAllTimelines()
     }
 }
 
