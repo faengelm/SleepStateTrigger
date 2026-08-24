@@ -10,6 +10,7 @@ struct WatchContentView: View {
                 stateSection
                 scenesSection
                 testSection
+                diagnosticSection
                 if !monitor.stateHistory.isEmpty {
                     historySection
                 }
@@ -136,6 +137,93 @@ struct WatchContentView: View {
                 .font(.caption2)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity)
+        }
+    }
+
+    // MARK: - Diagnostics
+
+    private var diagnosticSection: some View {
+        Section {
+            Button {
+                Task { await monitor.fetchLatestSleep() }
+            } label: {
+                Label("Check Now", systemImage: "arrow.clockwise")
+            }
+
+            if let state = monitor.lastSampleState {
+                HStack {
+                    Text("Latest Sample")
+                        .font(.caption2)
+                    Spacer()
+                    Text(state)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            if let start = monitor.lastSampleStart,
+               let end = monitor.lastSampleEnd {
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack {
+                        Text("Start")
+                            .font(.caption2)
+                        Spacer()
+                        Text(start, format: .dateTime.hour().minute().second())
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+                    HStack {
+                        Text("End")
+                            .font(.caption2)
+                        Spacer()
+                        Text(end, format: .dateTime.hour().minute().second())
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+
+            if let source = monitor.lastSampleSource {
+                HStack {
+                    Text("Source")
+                        .font(.caption2)
+                    Spacer()
+                    Text(source)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            if let queryTime = monitor.lastQueryTime {
+                HStack {
+                    Text("Checked")
+                        .font(.caption2)
+                    Spacer()
+                    Text(queryTime, format: .dateTime.hour().minute().second())
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            HStack {
+                Text("Observer Fires")
+                    .font(.caption2)
+                Spacer()
+                Text("\(monitor.observerFireCount)")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+
+            HStack {
+                Text("Samples (24h)")
+                    .font(.caption2)
+                Spacer()
+                Text("\(monitor.sampleCount)")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+        } header: {
+            Text("HealthKit Diagnostics")
         }
     }
 

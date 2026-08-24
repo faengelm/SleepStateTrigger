@@ -19,6 +19,15 @@ final class WatchSleepMonitor: NSObject, ObservableObject, UNUserNotificationCen
     @Published var isMonitoring = false
     @Published var stateHistory: [SleepStateTransition] = []
 
+    // Diagnostics
+    @Published var lastQueryTime: Date?
+    @Published var lastSampleState: String?
+    @Published var lastSampleStart: Date?
+    @Published var lastSampleEnd: Date?
+    @Published var lastSampleSource: String?
+    @Published var observerFireCount: Int = 0
+    @Published var sampleCount: Int = 0
+
     // MARK: - Types
 
     enum SleepState: String, Codable, Equatable {
@@ -131,7 +140,10 @@ final class WatchSleepMonitor: NSObject, ObservableObject, UNUserNotificationCen
         let query = HKObserverQuery(sampleType: sleepType, predicate: nil) { [weak self] _, completion, error in
             guard error == nil else { completion(); return }
             completion()
-            Task { await self?.fetchLatestSleep() }
+            Task {
+                await MainActor.run { self?.observerFireCount += 1 }
+                await self?.fetchLatestSleep()
+            }
         }
         observerQuery = query
         healthStore.execute(query)
@@ -154,10 +166,20 @@ final class WatchSleepMonitor: NSObject, ObservableObject, UNUserNotificationCen
                 limit: 5,
                 sortDescriptors: [sort]
             ) { [weak self] _, samples, _ in
-                if let latest = (samples as? [HKCategorySample])?.first {
+                let categorySamples = samples as? [HKCategorySample] ?? []
+                if let latest = categorySamples.first {
                     let newState = Self.mapSleepValue(latest.value)
                     let endDate = latest.endDate
+                    let startDate = latest.startDate
+                    let sourceName = latest.sourceRevision.source.name
+                    let count = categorySamples.count
                     Task { @MainActor [weak self] in
+                        self?.lastQueryTime = Date()
+                        self?.lastSampleState = newState.displayName
+                        self?.lastSampleStart = startDate
+                        self?.lastSampleEnd = endDate
+                        self?.lastSampleSource = sourceName
+                        self?.sampleCount = count
                         self?.processStateChange(newState: newState, sampleDate: endDate)
                     }
                 }
