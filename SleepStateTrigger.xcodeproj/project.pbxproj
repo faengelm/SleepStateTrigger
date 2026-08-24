@@ -47,11 +47,18 @@
 			);
 			target = BB0000000000000000000002 /* SleepStateTrigger */;
 		};
+		CC0000000000000000000010 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = CC0000000000000000000001 /* SleepStateTrigger Watch App */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		BB000000000000000000000F /* SleepStateTrigger */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (BB0000000000000000000010 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = SleepStateTrigger; sourceTree = "<group>"; };
-		CC0000000000000000000003 /* SleepStateTriggerWatch */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = SleepStateTriggerWatch; sourceTree = "<group>"; };
+		CC0000000000000000000003 /* SleepStateTriggerWatch */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (CC0000000000000000000010 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = SleepStateTriggerWatch; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,7 +228,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -248,7 +255,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -268,7 +275,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = SleepStateTrigger/SleepStateTrigger.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 43G3EU92Q6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -294,7 +301,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = SleepStateTrigger/SleepStateTrigger.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 43G3EU92Q6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -323,10 +330,10 @@
 				DEVELOPMENT_TEAM = 43G3EU92Q6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SleepStateTriggerWatch/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Sleep State Trigger";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Sleep State Trigger reads sleep data on the Watch to detect when you fall asleep and wake up.";
 				INFOPLIST_KEY_NSHomeKitUsageDescription = "Sleep State Trigger controls your smart home devices — activating scenes when you fall asleep and wake up.";
-				INFOPLIST_KEY_WKBackgroundModes = "self-care smart-alarm";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.sleepstatetrigger.app;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sleepstatetrigger.app.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -349,10 +356,10 @@
 				DEVELOPMENT_TEAM = 43G3EU92Q6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SleepStateTriggerWatch/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Sleep State Trigger";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Sleep State Trigger reads sleep data on the Watch to detect when you fall asleep and wake up.";
 				INFOPLIST_KEY_NSHomeKitUsageDescription = "Sleep State Trigger controls your smart home devices — activating scenes when you fall asleep and wake up.";
-				INFOPLIST_KEY_WKBackgroundModes = "self-care smart-alarm";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.sleepstatetrigger.app;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sleepstatetrigger.app.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
