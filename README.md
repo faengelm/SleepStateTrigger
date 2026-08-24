@@ -8,17 +8,23 @@ Any device or scene you can control through Apple Home can be automated with Sle
 
 ### Apple Watch App
 - **Real-time sleep detection** — Monitors sleep analysis data directly from the Watch's local HealthKit store with immediate background delivery
+- **Extended runtime session** — Keeps the app alive during sleep so HealthKit observer queries fire in real time
 - **Automatic scene execution** — Runs your chosen sleep scene when you fall asleep and wake scene when you get up
 - **Scene configuration** — Pick sleep and wake scenes from all available scenes in your Apple Home
 - **Auto-matching** — Automatically selects scenes with common names (Goodnight, Good Morning, Sleep, Wake, etc.) on first launch
+- **Watch face complication** — Shows current sleep state directly on your watch face (circular, rectangular, and inline)
 - **On-watch notifications** — Displays banners when sleep/wake transitions are detected
+- **Test buttons** — Manually trigger sleep or wake scenes from the Watch
+- **HealthKit diagnostics** — View latest sample details, observer fire count, and session state for troubleshooting
 - **Transition history** — Shows recent state changes with timestamps
 
 ### iPhone Companion App
 - **Live dashboard** — Displays the current sleep state synced from the Apple Watch in real time
 - **Remote scene configuration** — Choose sleep and wake scenes from the iPhone; changes sync to the Watch automatically
+- **Remote scene testing** — Test sleep and wake scenes from the iPhone with haptic feedback and visual confirmation
 - **Overnight log** — Records all sleep transitions throughout the night with timestamps and which scenes were executed
 - **Watch pairing status** — Shows whether the Apple Watch is paired and actively monitoring
+- **About screen** — Shows both iPhone and Watch app versions to verify connectivity
 
 ### What Can You Automate?
 
@@ -47,7 +53,7 @@ If it's in your Apple Home, Sleep State Trigger can control it.
 
 ## Why the Watch?
 
-**Apple's privacy model blocks HealthKit background delivery on a locked iPhone — which means an iPhone-only app can't detect sleep transitions overnight.** The Apple Watch writes sleep data to its local HealthKit store and delivers background updates immediately, even while the screen is off. This makes the Watch the only reliable way to trigger actions based on real-time sleep state.
+**Apple's privacy model blocks HealthKit background delivery on a locked iPhone — which means an iPhone-only app can't detect sleep transitions overnight.** The Apple Watch writes sleep data to its local HealthKit store and delivers background updates immediately, even while the screen is off. The app uses an extended runtime session to stay active during sleep, ensuring HealthKit observer queries fire in real time. This makes the Watch the only reliable way to trigger actions based on real-time sleep state.
 
 ## Requirements
 
@@ -70,11 +76,17 @@ On first launch, the app will request:
 2. The app auto-matches common scene names on first launch
 3. To change scenes, use the pickers on either the Watch or iPhone — changes sync automatically
 
-### 3. Verify Watch Connectivity
+### 3. Add the Complication
+
+1. Long-press your watch face and tap **Edit**
+2. Tap a complication slot and scroll to **Sleep State Trigger**
+3. Choose **Sleep State** — it shows your current sleep state directly on the watch face
+
+### 4. Verify Watch Connectivity
 
 Open the **Settings** (gear icon) on the iPhone app and check the **About** screen. If the Watch App version and build number appear, the Watch is communicating successfully with the iPhone. If they show "—", open the Watch app to trigger a sync.
 
-### 4. Wear to Bed
+### 5. Wear to Bed
 
 With Apple Watch sleep tracking enabled, wear your Watch to bed. The app will:
 - Detect when you fall asleep and run your sleep scene
