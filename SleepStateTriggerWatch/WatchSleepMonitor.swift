@@ -188,11 +188,17 @@ final class WatchSleepMonitor: NSObject, ObservableObject, UNUserNotificationCen
             ) { [weak self] _, samples, _ in
                 let categorySamples = samples as? [HKCategorySample] ?? []
                 if let latest = categorySamples.first {
-                    let newState = Self.mapSleepValue(latest.value)
+                    let rawState = Self.mapSleepValue(latest.value)
                     let endDate = latest.endDate
                     let startDate = latest.startDate
                     let sourceName = latest.sourceRevision.source.name
                     let count = categorySamples.count
+
+                    // If the latest sample ended more than 30 minutes ago,
+                    // the user is awake now — don't show a stale sleep state.
+                    let minutesSinceEnd = Date().timeIntervalSince(endDate) / 60
+                    let newState = (minutesSinceEnd > 30 && rawState != .awake) ? .awake : rawState
+
                     Task { @MainActor [weak self] in
                         self?.lastQueryTime = Date()
                         self?.lastSampleState = newState.displayName
