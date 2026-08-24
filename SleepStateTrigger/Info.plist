@@ -24,8 +24,6 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSHealthShareUsageDescription</key>
-	<string>Sleep State Trigger reads your Apple Watch sleep data to detect when you fall asleep and wake up, enabling automatic smart home control.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2026 Technology4Seniors LLC. All rights reserved.</string>
 	<key>UIApplicationSceneManifest</key>
@@ -33,11 +31,6 @@
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<true/>
 	</dict>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-		<string>processing</string>
-	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
 	<key>UISupportedInterfaceOrientations</key>
