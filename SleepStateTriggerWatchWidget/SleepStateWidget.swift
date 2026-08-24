@@ -21,7 +21,6 @@ struct SleepStateProvider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<SleepStateEntry>) -> Void) {
         let entry = currentEntry()
-        // Refresh every 15 minutes; the watch app also calls reloadAllTimelines on state change
         let next = Date().addingTimeInterval(900)
         completion(Timeline(entries: [entry], policy: .after(next)))
     }
@@ -43,14 +42,15 @@ struct SleepStateComplicationView: View {
         switch family {
         case .accessoryCircular:
             circularView
-        case .accessoryCorner:
-            cornerView
+                .containerBackground(.clear, for: .widget)
         case .accessoryRectangular:
             rectangularView
+                .containerBackground(.clear, for: .widget)
         case .accessoryInline:
             inlineView
         default:
             circularView
+                .containerBackground(.clear, for: .widget)
         }
     }
 
@@ -63,15 +63,6 @@ struct SleepStateComplicationView: View {
                 .minimumScaleFactor(0.5)
         }
         .widgetAccentable()
-    }
-
-    private var cornerView: some View {
-        Image(systemName: icon)
-            .font(.title3)
-            .widgetAccentable()
-            .widgetLabel {
-                Text(displayName)
-            }
     }
 
     private var rectangularView: some View {
@@ -144,7 +135,6 @@ struct SleepStateWidget: Widget {
         .description("Shows current sleep stage on your watch face.")
         .supportedFamilies([
             .accessoryCircular,
-            .accessoryCorner,
             .accessoryRectangular,
             .accessoryInline,
         ])
