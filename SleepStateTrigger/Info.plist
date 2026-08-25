@@ -22,6 +22,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSHomeKitUsageDescription</key>
+	<string>Sleep State Trigger uses HomeKit to discover and execute your sleep and wake scenes when the Apple Watch detects sleep transitions.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
