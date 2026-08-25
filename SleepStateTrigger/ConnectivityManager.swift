@@ -22,6 +22,9 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
     @Published var watchVersion: String?
     @Published var watchBuild: String?
     @Published var overnightLog: [TransitionEvent] = []
+    @Published var sleepShortcutInput: String = ""
+    @Published var wakeShortcutInput: String = ""
+    static let shortcutName = "Set Focus Mode"
 
     struct TransitionEvent: Identifiable, Codable {
         let id: UUID
@@ -42,6 +45,8 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
     override init() {
         super.init()
         loadLog()
+        sleepShortcutInput = UserDefaults.standard.string(forKey: "shortcutSleepInput") ?? ""
+        wakeShortcutInput = UserDefaults.standard.string(forKey: "shortcutWakeInput") ?? ""
     }
 
     func start() {
@@ -113,6 +118,15 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
                 self.overnightLog = Array(self.overnightLog.prefix(100))
             }
             self.saveLog()
+
+            // Run shortcut on sleep/wake transitions
+            let wentToSleep = Self.isAsleepState(event.to) && !Self.isAsleepState(event.from)
+            let wokeUp = !Self.isAsleepState(event.to) && Self.isAsleepState(event.from)
+            if wentToSleep {
+                self.runShortcut(input: self.sleepShortcutInput)
+            } else if wokeUp {
+                self.runShortcut(input: self.wakeShortcutInput)
+            }
         }
     }
 
@@ -158,6 +172,31 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
         } else {
             WCSession.default.transferUserInfo(message)
         }
+    }
+
+    // MARK: - Shortcuts
+
+    func updateSleepShortcutInput(_ input: String) {
+        sleepShortcutInput = input
+        UserDefaults.standard.set(input, forKey: "shortcutSleepInput")
+    }
+
+    func updateWakeShortcutInput(_ input: String) {
+        wakeShortcutInput = input
+        UserDefaults.standard.set(input, forKey: "shortcutWakeInput")
+    }
+
+    func runShortcut(input: String) {
+        guard !input.isEmpty,
+              let encodedName = Self.shortcutName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let encodedInput = input.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let url = URL(string: "shortcuts://run-shortcut?name=\(encodedName)&input=text&text=\(encodedInput)")
+        else { return }
+        UIApplication.shared.open(url)
+    }
+
+    static func isAsleepState(_ state: String) -> Bool {
+        ["asleep", "rem", "core", "deep"].contains(state)
     }
 
     // MARK: - Log Persistence

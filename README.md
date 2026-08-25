@@ -1,8 +1,8 @@
 # Sleep State Trigger
 
-An iOS + watchOS app that detects sleep/wake transitions using Apple Watch health data and automatically triggers Apple Home scenes. Fall asleep and your lights turn off, thermostat adjusts, TV powers down, and fan switches on. Wake up and your coffee maker starts, lights brighten, and HVAC shifts to your daytime schedule — all hands-free.
+An iOS + watchOS app that detects sleep/wake transitions using Apple Watch health data and automatically triggers Apple Home scenes and Shortcuts. Fall asleep and your lights turn off, thermostat adjusts, TV powers down, Focus mode activates, and fan switches on. Wake up and your coffee maker starts, lights brighten, Focus turns off, and HVAC shifts to your daytime schedule — all hands-free.
 
-Any device or scene you can control through Apple Home can be automated with Sleep State Trigger.
+Any device or scene you can control through Apple Home — plus anything you can do with an Apple Shortcut — can be automated with Sleep State Trigger.
 
 ## Features
 
@@ -22,6 +22,8 @@ Any device or scene you can control through Apple Home can be automated with Sle
 - **Live dashboard** — Displays the current sleep state synced from the Apple Watch in real time
 - **Remote scene configuration** — Choose sleep and wake scenes from the iPhone; changes sync to the Watch automatically
 - **Remote scene testing** — Test sleep and wake scenes from the iPhone with haptic feedback and visual confirmation
+- **Shortcuts integration** — Run an Apple Shortcut on sleep/wake transitions to control Focus mode, send messages, adjust settings, or anything else Shortcuts can do
+- **One-tap shortcut install** — Install a pre-built "Set Focus Mode" shortcut directly from the app, then configure what input to pass for sleep and wake
 - **Overnight log** — Records all sleep transitions throughout the night with timestamps and which scenes were executed
 - **Watch pairing status** — Shows whether the Apple Watch is paired and actively monitoring
 - **About screen** — Shows both iPhone and Watch app versions to verify connectivity
@@ -38,7 +40,10 @@ Sleep State Trigger works with any device or scene in Apple Home. Common example
 - **Smart plugs** — Control any plugged-in device on a sleep/wake schedule
 - **Window shades** — Close shades at bedtime, open them in the morning
 
-If it's in your Apple Home, Sleep State Trigger can control it.
+- **Focus mode** — Activate Sleep Focus at bedtime, turn it off at wake (via Shortcuts)
+- **Messages** — Send an automated "good morning" text (via Shortcuts)
+
+If it's in your Apple Home or Apple Shortcuts, Sleep State Trigger can control it.
 
 ### Sleep States Detected
 
@@ -76,17 +81,28 @@ On first launch, the app will request:
 2. The app auto-matches common scene names on first launch
 3. To change scenes, use the pickers on either the Watch or iPhone — changes sync automatically
 
-### 3. Add the Complication
+### 3. Set Up Shortcuts (Optional)
+
+Sleep State Trigger can run an Apple Shortcut on each sleep/wake transition — for example, to change your iPhone's Focus mode.
+
+1. In the iPhone app, tap **Install Focus Shortcut** to install the pre-built "Set Focus Mode" shortcut
+2. Enter the input to pass for each transition (e.g., "Sleep" for sleep, "Off" for wake)
+3. Tap the **Run** buttons to test each one
+4. The shortcut runs automatically when a sleep/wake transition is received from the Watch
+
+You can also create your own shortcuts in Apple's Shortcuts app and use them instead — the app passes your configured input as a text parameter to whatever shortcut is named "Set Focus Mode."
+
+### 4. Add the Complication (Optional)
 
 1. Long-press your watch face and tap **Edit**
 2. Tap a complication slot and scroll to **Sleep State Trigger**
 3. Choose **Sleep State** — it shows your current sleep state directly on the watch face
 
-### 4. Verify Watch Connectivity
+### 5. Verify Watch Connectivity
 
 Open the **Settings** (gear icon) on the iPhone app and check the **About** screen. If the Watch App version and build number appear, the Watch is communicating successfully with the iPhone. If they show "—", open the Watch app to trigger a sync.
 
-### 5. Wear to Bed
+### 6. Wear to Bed
 
 With Apple Watch sleep tracking enabled, wear your Watch to bed. The app will:
 - Detect when you fall asleep and run your sleep scene

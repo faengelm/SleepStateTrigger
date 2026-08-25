@@ -6,6 +6,8 @@ struct ContentView: View {
     @State private var showingAbout = false
     @State private var sleepTestSent = false
     @State private var wakeTestSent = false
+    @State private var sleepShortcutRan = false
+    @State private var wakeShortcutRan = false
 
     var body: some View {
         NavigationStack {
@@ -13,6 +15,7 @@ struct ContentView: View {
                 watchStateSection
                 scenesSection
                 testSection
+                shortcutsSection
                 if !sync.overnightLog.isEmpty {
                     overnightLogSection
                 }
@@ -175,6 +178,78 @@ struct ContentView: View {
             }
         } header: {
             Text("Overnight Log")
+        }
+    }
+
+    // MARK: - Shortcuts
+
+    private var shortcutsSection: some View {
+        Section {
+            Button {
+                if let url = URL(string: "https://www.icloud.com/shortcuts/9b849c32c61d45bca90066cd1978de56") {
+                    UIApplication.shared.open(url)
+                }
+            } label: {
+                Label("Install Focus Shortcut", systemImage: "square.and.arrow.down")
+            }
+
+            TextField("Sleep Input (e.g., Sleep)", text: Binding(
+                get: { sync.sleepShortcutInput },
+                set: { sync.updateSleepShortcutInput($0) }
+            ))
+            .autocorrectionDisabled()
+
+            TextField("Wake Input (e.g., Off)", text: Binding(
+                get: { sync.wakeShortcutInput },
+                set: { sync.updateWakeShortcutInput($0) }
+            ))
+            .autocorrectionDisabled()
+
+            Button {
+                sync.runShortcut(input: sync.sleepShortcutInput)
+                showSent($sleepShortcutRan)
+            } label: {
+                HStack {
+                    Label("Run Sleep Shortcut", systemImage: "moon.fill")
+                    Spacer()
+                    if sleepShortcutRan {
+                        Text("Ran")
+                            .font(.subheadline)
+                            .foregroundStyle(.green)
+                            .transition(.opacity)
+                    }
+                }
+            }
+            .disabled(sync.sleepShortcutInput.isEmpty)
+
+            Button {
+                sync.runShortcut(input: sync.wakeShortcutInput)
+                showSent($wakeShortcutRan)
+            } label: {
+                HStack {
+                    Label("Run Wake Shortcut", systemImage: "sun.max.fill")
+                    Spacer()
+                    if wakeShortcutRan {
+                        Text("Ran")
+                            .font(.subheadline)
+                            .foregroundStyle(.green)
+                            .transition(.opacity)
+                    }
+                }
+            }
+            .disabled(sync.wakeShortcutInput.isEmpty)
+
+            Button {
+                if let url = URL(string: "shortcuts://") {
+                    UIApplication.shared.open(url)
+                }
+            } label: {
+                Label("Open Shortcuts App", systemImage: "arrow.up.forward.app")
+            }
+        } header: {
+            Text("Shortcuts")
+        } footer: {
+            Text("Install the Focus shortcut, enter its name, and set the input to pass for each transition. The shortcut runs automatically when a sleep/wake transition is received from the Watch.")
         }
     }
 
