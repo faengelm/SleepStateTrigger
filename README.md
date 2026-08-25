@@ -40,7 +40,7 @@ Sleep State Trigger works with any device or scene in Apple Home. Common example
 - **Smart plugs** — Control any plugged-in device on a sleep/wake schedule
 - **Window shades** — Close shades at bedtime, open them in the morning
 
-- **Focus mode** — Activate Sleep Focus at bedtime, turn it off at wake (via Shortcuts)
+- **Focus mode** — Switch to Sleep Focus at bedtime, switch to Work or Personal Focus at wake (via Shortcuts)
 - **Messages** — Send an automated "good morning" text (via Shortcuts)
 
 If it's in your Apple Home or Apple Shortcuts, Sleep State Trigger can control it.
@@ -86,11 +86,9 @@ On first launch, the app will request:
 Sleep State Trigger can run an Apple Shortcut on each sleep/wake transition — for example, to change your iPhone's Focus mode.
 
 1. In the iPhone app, tap **Install Focus Shortcut** to install the pre-built "Set Focus Mode" shortcut
-2. Enter the input to pass for each transition (e.g., "Sleep" for sleep, "Off" for wake)
-3. Tap the **Run** buttons to test each one
+2. Enter the Focus mode name to activate for each transition — for example, "Sleep" when you fall asleep and "Work" or "Personal" when you wake up (these must match Focus modes configured on your iPhone in Settings > Focus)
+3. Tap the **Test** buttons to verify each one works — when prompted, tap **Always Allow** so the shortcut can run without confirmation
 4. The shortcut runs automatically when a sleep/wake transition is received from the Watch
-
-You can also create your own shortcuts in Apple's Shortcuts app and use them instead — the app passes your configured input as a text parameter to whatever shortcut is named "Set Focus Mode."
 
 ### 4. Add the Complication (Optional)
 

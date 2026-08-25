@@ -193,13 +193,13 @@ struct ContentView: View {
                 Label("Install Focus Shortcut", systemImage: "square.and.arrow.down")
             }
 
-            TextField("Sleep Input (e.g., Sleep)", text: Binding(
+            TextField("Sleep Focus (e.g., Sleep)", text: Binding(
                 get: { sync.sleepShortcutInput },
                 set: { sync.updateSleepShortcutInput($0) }
             ))
             .autocorrectionDisabled()
 
-            TextField("Wake Input (e.g., Off)", text: Binding(
+            TextField("Wake Focus (e.g., Work, Personal)", text: Binding(
                 get: { sync.wakeShortcutInput },
                 set: { sync.updateWakeShortcutInput($0) }
             ))
@@ -210,10 +210,10 @@ struct ContentView: View {
                 showSent($sleepShortcutRan)
             } label: {
                 HStack {
-                    Label("Run Sleep Shortcut", systemImage: "moon.fill")
+                    Label("Test Sleep Focus", systemImage: "moon.fill")
                     Spacer()
                     if sleepShortcutRan {
-                        Text("Ran")
+                        Text("Sent")
                             .font(.subheadline)
                             .foregroundStyle(.green)
                             .transition(.opacity)
@@ -227,10 +227,10 @@ struct ContentView: View {
                 showSent($wakeShortcutRan)
             } label: {
                 HStack {
-                    Label("Run Wake Shortcut", systemImage: "sun.max.fill")
+                    Label("Test Wake Focus", systemImage: "sun.max.fill")
                     Spacer()
                     if wakeShortcutRan {
-                        Text("Ran")
+                        Text("Sent")
                             .font(.subheadline)
                             .foregroundStyle(.green)
                             .transition(.opacity)
@@ -249,7 +249,7 @@ struct ContentView: View {
         } header: {
             Text("Shortcuts")
         } footer: {
-            Text("Install the Focus shortcut, enter its name, and set the input to pass for each transition. The shortcut runs automatically when a sleep/wake transition is received from the Watch.")
+            Text("Enter the Focus mode to activate on each transition. The shortcut switches your iPhone to that Focus mode — use Test to verify it works, then tap Always Allow when prompted.")
         }
     }
 
