@@ -21,7 +21,6 @@ Any device or scene you can control through Apple Home — plus anything you can
 ### iPhone Companion App
 - **Live dashboard** — Displays the current sleep state synced from the Apple Watch in real time
 - **Remote scene configuration** — Choose sleep and wake scenes from the iPhone; changes sync to the Watch automatically
-- **Remote scene testing** — Test sleep and wake scenes from the iPhone with haptic feedback and visual confirmation
 - **Shortcuts integration** — Run an Apple Shortcut on sleep/wake transitions to control Focus mode, send messages, adjust settings, or anything else Shortcuts can do
 - **One-tap shortcut install** — Install a pre-built "Set Focus Mode" shortcut directly from the app, then configure what input to pass for sleep and wake
 - **Overnight log** — Records all sleep transitions throughout the night with timestamps and which scenes were executed
