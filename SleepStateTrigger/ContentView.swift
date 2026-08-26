@@ -4,8 +4,6 @@ struct ContentView: View {
     @ObservedObject private var sync = ConnectivityManager.shared
 
     @State private var showingAbout = false
-    @State private var sleepTestSent = false
-    @State private var wakeTestSent = false
     @State private var sleepShortcutRan = false
     @State private var wakeShortcutRan = false
 
@@ -14,7 +12,6 @@ struct ContentView: View {
             List {
                 watchStateSection
                 scenesSection
-                testSection
                 shortcutsSection
                 if !sync.overnightLog.isEmpty {
                     overnightLogSection
@@ -132,11 +129,6 @@ struct ContentView: View {
                 }
             }
 
-            if let result = sync.lastActionResult {
-                Text(result)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
         } header: {
             Text("Home Scenes")
         } footer: {
@@ -250,50 +242,6 @@ struct ContentView: View {
             Text("Shortcuts")
         } footer: {
             Text("Enter the Focus mode to activate on each transition. The shortcut switches your iPhone to that Focus mode — use Test to verify it works, then tap Always Allow when prompted.")
-        }
-    }
-
-    // MARK: - Test Scenes
-
-    private var testSection: some View {
-        Section {
-            Button {
-                sync.testSleepScene()
-                showSent($sleepTestSent)
-            } label: {
-                HStack {
-                    Label("Test Sleep Scene", systemImage: "moon.fill")
-                    Spacer()
-                    if sleepTestSent {
-                        Text("Sent")
-                            .font(.subheadline)
-                            .foregroundStyle(.green)
-                            .transition(.opacity)
-                    }
-                }
-            }
-            .disabled(sync.sleepSceneName == nil)
-
-            Button {
-                sync.testWakeScene()
-                showSent($wakeTestSent)
-            } label: {
-                HStack {
-                    Label("Test Wake Scene", systemImage: "sun.max.fill")
-                    Spacer()
-                    if wakeTestSent {
-                        Text("Sent")
-                            .font(.subheadline)
-                            .foregroundStyle(.green)
-                            .transition(.opacity)
-                    }
-                }
-            }
-            .disabled(sync.wakeSceneName == nil)
-        } header: {
-            Text("Test")
-        } footer: {
-            Text("Sends a command to the Watch to execute the scene immediately.")
         }
     }
 
